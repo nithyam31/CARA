@@ -88,6 +88,11 @@ st.markdown("""
     section[data-testid="stSidebar"] .stMarkdown { color: white; }
     section[data-testid="stSidebar"] label { color: #48C9B0 !important; font-weight: 600; }
     section[data-testid="stSidebar"] h2, section[data-testid="stSidebar"] h3 { color: white; }
+
+    /* Fix metric component text — prevent white-on-white rendering */
+    [data-testid="stMetricLabel"] p { color: #1A1A2E !important; font-weight: 600 !important; }
+    [data-testid="stMetricValue"] { color: #1A1A2E !important; font-weight: 700 !important; }
+    [data-testid="metric-container"] { background: white; border-radius: 8px; padding: 0.5rem; border: 1px solid #E8EEF4; }
 </style>
 """, unsafe_allow_html=True)
 
