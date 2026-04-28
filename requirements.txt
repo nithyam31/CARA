@@ -1,0 +1,10 @@
+streamlit
+joblib
+faiss-cpu
+numpy
+pandas
+sentence-transformers
+google-generativeai
+torch
+transformers
+scikit-learn
