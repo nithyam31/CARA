@@ -241,36 +241,21 @@ if models_loaded:
             "sex": "Biological Sex", "age": "Age",
             "fbs": "Blood Sugar", "trestbps": "Blood Pressure"
         }
-        factor_descriptions = {
-            "oldpeak": "Strongest predictor — heart muscle starved of blood during exertion",
-            "exang":   "Chest pain during exercise signals blocked coronary arteries",
-            "sex":     "Male patients carry statistically higher cardiovascular risk",
-            "age":     "Every additional year adds measurable cardiovascular risk",
-            "fbs":     "Elevated blood sugar signals diabetes — a major cardiac risk factor",
-            "trestbps":"High resting blood pressure means the heart is overworking at rest",
-        }
         top_factors = sorted(
             [(f, odds_ratios.get(f, 1.0)) for f in feature_names if odds_ratios.get(f, 1.0) > 1.0],
             key=lambda x: x[1], reverse=True
         )[:3]
 
-        st.markdown("**Top 3 risk drivers for this patient:**")
+        st.markdown("**Top risk drivers for this patient:**")
         cols = st.columns(3)
         for i, (feat, orval) in enumerate(top_factors):
             with cols[i]:
-                desc = factor_descriptions.get(feat, "Contributes to cardiovascular risk")
-                st.markdown(f'''
-                <div style="background:white; border-radius:10px; padding:1rem 1.2rem;
-                             border-left:4px solid #E74C3C; box-shadow:0 2px 8px rgba(0,0,0,0.06);
-                             margin-bottom:0.5rem;">
-                    <p style="color:#E74C3C; font-size:0.8rem; font-weight:700;
-                               text-transform:uppercase; margin:0 0 0.3rem 0;">Risk Factor {i+1}</p>
-                    <p style="color:#0A2342; font-size:1.1rem; font-weight:700; margin:0 0 0.3rem 0;">
-                        {factor_labels.get(feat, feat)}
-                    </p>
-                    <p style="color:#555; font-size:0.82rem; margin:0; line-height:1.4;">{desc}</p>
-                </div>
-                ''', unsafe_allow_html=True)
+                pct = round((orval - 1) * 100)
+                st.metric(
+                    label=factor_labels.get(feat, feat),
+                    value=f"OR = {orval}",
+                    delta=f"+{pct}% increased cardiovascular risk per unit"
+                )
 
         st.markdown("---")
 
